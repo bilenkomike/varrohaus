@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VARRO — Quiet Luxury. Men's Accessories.</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --obsidian: #0D0D0D;
+    --gold: #B8972E;
+    --gold-light: #D4B96A;
+    --gold-pale: #F5EDD6;
+    --bone: #F2EDE4;
+    --walnut: #5C5244;
+    --linen: #C9C1B2;
+    --white: #FAFAF8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--obsidian);
+    color: var(--bone);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 60px;
+    background: linear-gradient(to bottom, rgba(13,13,13,0.95) 0%, transparent 100%);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 8px;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--linen);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 120px 40px 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-corner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+  }
+  .hero-corner.tl { top: 40px; left: 40px; border-top: 1px solid rgba(184,151,46,0.4); border-left: 1px solid rgba(184,151,46,0.4); }
+  .hero-corner.tr { top: 40px; right: 40px; border-top: 1px solid rgba(184,151,46,0.4); border-right: 1px solid rgba(184,151,46,0.4); }
+  .hero-corner.bl { bottom: 40px; left: 40px; border-bottom: 1px solid rgba(184,151,46,0.4); border-left: 1px solid rgba(184,151,46,0.4); }
+  .hero-corner.br { bottom: 40px; right: 40px; border-bottom: 1px solid rgba(184,151,46,0.4); border-right: 1px solid rgba(184,151,46,0.4); }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.3s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 14vw, 160px);
+    font-weight: 300;
+    letter-spacing: 20px;
+    color: var(--bone);
+    line-height: 0.9;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1.2s ease forwards 0.5s;
+  }
+
+  .hero-title span { color: var(--gold); }
+
+  .hero-line {
+    width: 1px;
+    height: 60px;
+    background: var(--gold);
+    margin: 0 auto 32px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 0.9s;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--linen);
+    letter-spacing: 2px;
+    margin-bottom: 60px;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.1s;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 14px 48px;
+    border: 1px solid var(--gold);
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: all 0.4s;
+    opacity: 0;
+    animation: fadeUp 1s ease forwards 1.3s;
+  }
+
+  .hero-cta:hover {
+    background: var(--gold);
+    color: var(--obsidian);
+  }
+
+  /* SECTION SHARED */
+  section { padding: 120px 60px; }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 300;
+    color: var(--bone);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold-light); }
+
+  .divider-line {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin-bottom: 40px;
+  }
+
+  /* MANIFESTO */
+  .manifesto {
+    background: #111;
+    text-align: center;
+    padding: 100px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .manifesto-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 56px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--bone);
+    line-height: 1.4;
+    max-width: 800px;
+    margin: 0 auto 32px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .manifesto-attr {
+    font-size: 10px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .manifesto-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 280px;
+    font-weight: 600;
+    color: rgba(184,151,46,0.04);
+    letter-spacing: 30px;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1;
+  }
+
+  /* PRODUCTS */
+  .products { background: var(--obsidian); }
+
+  .products-intro {
+    max-width: 500px;
+    margin-bottom: 80px;
+  }
+
+  .products-intro p {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--walnut);
+    letter-spacing: 0.5px;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+  }
+
+  .product-card {
+    background: #111;
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.4s;
+  }
+
+  .product-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card:hover { background: #161616; }
+  .product-card:hover::before { transform: scaleX(1); }
+
+  .product-num {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    opacity: 0.6;
+    margin-bottom: 24px;
+  }
+
+  .product-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--bone);
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .product-desc {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--walnut);
+    letter-spacing: 0.3px;
+    margin-bottom: 24px;
+  }
+
+  .product-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--gold-light);
+  }
+
+  .product-trigger {
+    position: absolute;
+    top: 48px; right: 36px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.5;
+  }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: #0a0a0a;
+  }
+
+  .about-left {
+    padding: 100px 60px;
+    border-right: 1px solid rgba(184,151,46,0.15);
+  }
+
+  .about-right {
+    padding: 100px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .about-right p {
+    font-size: 14px;
+    line-height: 2;
+    color: var(--walnut);
+    margin-bottom: 20px;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .pillar h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--bone);
+    margin-bottom: 8px;
+  }
+
+  .pillar p {
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--walnut);
+    letter-spacing: 0.3px;
+  }
+
+  /* NEWSLETTER */
+  .newsletter {
+    background: #0D0D0D;
+    text-align: center;
+    padding: 120px 40px;
+    position: relative;
+    border-top: 1px solid rgba(184,151,46,0.15);
+  }
+
+  .newsletter-inner {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .newsletter .section-label { display: block; margin-bottom: 24px; }
+
+  .newsletter .section-title {
+    margin-bottom: 16px;
+  }
+
+  .newsletter-sub {
+    font-size: 13px;
+    color: var(--walnut);
+    line-height: 1.8;
+    margin-bottom: 48px;
+    letter-spacing: 0.3px;
+  }
+
+  .newsletter-form {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    margin: 0 auto 20px;
+  }
+
+  .newsletter-input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid rgba(184,151,46,0.4);
+    border-right: none;
+    padding: 16px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--bone);
+    outline: none;
+    transition: border-color 0.3s;
+  }
+
+  .newsletter-input::placeholder { color: var(--walnut); }
+  .newsletter-input:focus { border-color: var(--gold); }
+
+  .newsletter-btn {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 16px 32px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--obsidian);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+
+  .newsletter-btn:hover {
+    background: transparent;
+    color: var(--gold);
+  }
+
+  .newsletter-note {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--walnut);
+    opacity: 0.6;
+  }
+
+  #thanks-msg {
+    display: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--gold-light);
+    margin-top: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 60px;
+    border-top: 1px solid rgba(184,151,46,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    letter-spacing: 8px;
+    color: var(--gold);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--walnut);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--walnut);
+    opacity: 0.5;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 24px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .about-strip { grid-template-columns: 1fr; }
+    .about-left { border-right: none; border-bottom: 1px solid rgba(184,151,46,0.15); padding: 60px 24px; }
+    .about-right { padding: 60px 24px; }
+    .pillars { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; padding: 40px 24px; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-input { border-right: 1px solid rgba(184,151,46,0.4); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">VARRO</a>
+  <ul class="nav-links">
+    <li><a href="#products">Collection</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#newsletter">Join</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-corner tl"></div>
+  <div class="hero-corner tr"></div>
+  <div class="hero-corner bl"></div>
+  <div class="hero-corner br"></div>
+
+  <p class="hero-eyebrow">Est. MMXXV &nbsp;·&nbsp; Quiet Luxury</p>
+  <h1 class="hero-title">VAR<span>R</span>O</h1>
+  <div class="hero-line"></div>
+  <p class="hero-sub">Dress like you've already won.</p>
+  <a href="#products" class="hero-cta">Explore the Collection</a>
+</section>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <div class="manifesto-bg-text">VARRO</div>
+  <blockquote class="manifesto-quote">
+    "The man who understands status<br>never announces it."
+  </blockquote>
+  <p class="manifesto-attr">— VARRO &nbsp;·&nbsp; Est. MMXXV</p>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-intro reveal">
+    <p class="section-label">The Collection</p>
+    <h2 class="section-title">Seven pieces.<br><em>One identity.</em></h2>
+    <div class="divider-line"></div>
+    <p>Each piece is selected for what it communicates, not what it costs. Built for the man who has already decided who he is.</p>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card reveal">
+      <div class="product-num">01</div>
+      <div class="product-trigger">Status</div>
+      <div class="product-name">The Signet Ring</div>
+      <div class="product-desc">3,000 years of authority. Worn on the right hand. Blackened brass or sterling silver. Custom engraving available.</div>
+      <div class="product-price">From €89</div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-num">02</div>
+      <div class="product-trigger">Discipline</div>
+      <div class="product-name">Minimal Dress Watch</div>
+      <div class="product-desc">No complications. No date. Just the hours. Miyota movement, sapphire crystal, genuine leather strap.</div>
+      <div class="product-price">From €220</div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-num">03</div>
+      <div class="product-trigger">Control</div>
+      <div class="product-name">Slim Leather Wallet</div>
+      <div class="product-desc">Full-grain leather. Four cards, one note fold. Ages beautifully. The only wallet you'll ever need to replace.</div>
+      <div class="product-price">From €75</div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-num">04</div>
+      <div class="product-trigger">Masculinity</div>
+      <div class="product-name">Sterling Chain Bracelet</div>
+      <div class="product-desc">925 sterling silver or oxidised black finish. Substantial weight. Lobster clasp. 3mm and 5mm widths.</div>
+      <div class="product-price">From €95</div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-num">05</div>
+      <div class="product-trigger">Power</div>
+      <div class="product-name">Unstructured Blazer</div>
+      <div class="product-desc">Navy, charcoal, camel. Linen-wool blend. Natural shoulder. The conversation starter you never have to explain.</div>
+      <div class="product-price">From €320</div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-num">06</div>
+      <div class="product-trigger">Precision</div>
+      <div class="product-name">Italian Leather Belt</div>
+      <div class="product-desc">Full-grain hide. Solid brass buckle. No external logo. The backbone of every outfit you'll wear.</div>
+      <div class="product-price">From €110</div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-num">07</div>
+      <div class="product-trigger">Mystery</div>
+      <div class="product-name">Gold-Frame Sunglasses</div>
+      <div class="product-desc">Thin metal frame. Tinted brown or grey lens. UV400. The last thing they see before you walk away.</div>
+      <div class="product-price">From €115</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-strip" id="about">
+  <div class="about-left reveal">
+    <p class="section-label">The Philosophy</p>
+    <h2 class="section-title">Status<br>is <em>silent.</em></h2>
+    <div class="divider-line"></div>
+    <div class="pillars">
+      <div class="pillar">
+        <h4>Restraint</h4>
+        <p>Every piece does one thing perfectly. Nothing is added for the sake of it.</p>
+      </div>
+      <div class="pillar">
+        <h4>Permanence</h4>
+        <p>Built to outlast trends. Designed to be inherited, not replaced.</p>
+      </div>
+      <div class="pillar">
+        <h4>Intention</h4>
+        <p>The man who wears VARRO chose each piece deliberately. That is the point.</p>
+      </div>
+      <div class="pillar">
+        <h4>Identity</h4>
+        <p>Not what you own. Who you are when you wear it.</p>
+      </div>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <p class="section-label">About VARRO</p>
+    <p>VARRO was built for the man who understands that the loudest thing in a room is often the quietest person in it.</p>
+    <p>We source every piece for what it communicates at close range — the weight of the metal, the quality of the hide, the restraint of the design. Nothing is here by accident.</p>
+    <p>Seven pieces. One coherent identity. Everything you need. Nothing you don't.</p>
+    <br>
+    <a href="#newsletter" style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(184,151,46,0.3);padding-bottom:4px;">Join the inner circle →</a>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <div class="newsletter-inner reveal">
+    <span class="section-label">Early Access</span>
+    <h2 class="section-title">The <em>Inner Circle.</em></h2>
+    <p class="newsletter-sub">First access to new drops. No discounts — we don't do those. Just early notice, before anyone else. One email per drop.</p>
+
+    <div class="newsletter-form">
+      <input type="email" class="newsletter-input" placeholder="Your email address" id="email-input">
+      <button class="newsletter-btn" onclick="handleSubmit()">Join</button>
+    </div>
+    <p class="newsletter-note">No noise. No weekly newsletters. Only what matters.</p>
+    <p id="thanks-msg">Welcome to VARRO. We'll be in touch.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VARRO</div>
+  <ul class="footer-links">
+    <li><a href="#products">Collection</a></li>
+    <li><a href="#about">Philosophy</a></li>
+    <li><a href="https://instagram.com/varro.man" target="_blank">Instagram</a></li>
+  </ul>
+  <p class="footer-copy">© MMXXV VARRO. All rights reserved.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 0.1}s`;
+    observer.observe(el);
+  });
+
+  function handleSubmit() {
+    const input = document.getElementById('email-input');
+    const val = input.value.trim();
+    if (!val || !val.includes('@')) {
+      input.style.borderColor = 'rgba(255,80,80,0.6)';
+      setTimeout(() => input.style.borderColor = 'rgba(184,151,46,0.4)', 1500);
+      return;
+    }
+    document.querySelector('.newsletter-form').style.display = 'none';
+    document.querySelector('.newsletter-note').style.display = 'none';
+    document.getElementById('thanks-msg').style.display = 'block';
+  }
+
+  document.getElementById('email-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') handleSubmit();
+  });
+</script>
+</body>
+</html>
