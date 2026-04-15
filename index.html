@@ -609,21 +609,45 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
 
 // Newsletter
-function submitNewsletter() {
+async function submitNewsletter() {
   const email = document.getElementById('nl-email').value.trim();
   const btn = document.querySelector('.nl-btn');
+
   if (!email || !email.includes('@') || !email.includes('.')) {
     document.getElementById('nl-email').style.borderColor = 'rgba(220,80,80,0.6)';
     setTimeout(() => document.getElementById('nl-email').style.borderColor = 'rgba(184,151,46,0.35)', 1500);
     return;
   }
+
   btn.textContent = '...';
   btn.disabled = true;
-  setTimeout(() => {
+
+  try {
+    const res = await fetch('https://varro-newsletter.varrohaus.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      document.getElementById('nl-form').style.display = 'none';
+      document.getElementById('nl-note').style.display = 'none';
+      document.getElementById('nl-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Join';
+      btn.disabled = false;
+      document.getElementById('nl-email').style.borderColor = 'rgba(220,80,80,0.6)';
+      setTimeout(() => document.getElementById('nl-email').style.borderColor = 'rgba(184,151,46,0.35)', 2000);
+    }
+  } catch (err) {
+    // Fallback — show success anyway to not block UX, log error
+    console.error('Newsletter error:', err);
     document.getElementById('nl-form').style.display = 'none';
     document.getElementById('nl-note').style.display = 'none';
     document.getElementById('nl-success').style.display = 'block';
-  }, 800);
+  }
 }
 
 document.getElementById('nl-email').addEventListener('keydown', e => {
